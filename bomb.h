@@ -1,5 +1,6 @@
 #ifndef BOMB_H
 #define BOMB_H
+#include <QGraphicsItem>
 
 
 class Bomb : public QGraphicsItem
