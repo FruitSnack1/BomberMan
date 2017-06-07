@@ -26,6 +26,7 @@ private:
     void SetBlockIn();
     Map *map;
     QList<BlockIn *> blockInList;
+    int time;
 
 };
 
