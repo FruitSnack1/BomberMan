@@ -2,20 +2,25 @@
 #define VIEW_H
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include "map.h"
-#include "blockin.h"
+#include <QKeyEvent>
+
+#include "player.h"
 
 class View : public QGraphicsView
 {
 public:
     View();
     View(QGraphicsScene *scene);
-
+protected:
+    void timerEvent(QTimerEvent * event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 private:
-    void SetBlockIn();
-    Map *map;
-    QList<BlockIn *> blockInList;
-
+    void CreatePlayer();
+     void MovePlayer();
+    Player *player;
+    double movePlayer;
+    int idTimer;
 };
 
 #endif // VIEW_H

@@ -8,7 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QMainWindow::showMaximized();
     View *view = new View(&scene);
     this->setCentralWidget(view);
 }

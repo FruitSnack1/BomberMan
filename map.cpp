@@ -8,7 +8,7 @@ Map::Map()
 
 QRectF Map::boundingRect() const
 {
-    return QRectF(0,0,756,756);
+    return QRectF(0,0,500,500);
 }
 
 QPainterPath Map::shape() const
@@ -20,6 +20,6 @@ QPainterPath Map::shape() const
 
 void Map::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(QColor(17, 122, 49));
+    painter->setBrush(Qt::red);
     painter->drawRect(boundingRect());
 }
