@@ -3,7 +3,8 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QKeyEvent>
-
+#include "map.h"
+#include "blockin.h"
 #include "player.h"
 
 class View : public QGraphicsView
@@ -17,10 +18,15 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
 private:
     void CreatePlayer();
-     void MovePlayer();
+    void MovePlayer();
     Player *player;
-    double movePlayer;
+    double movePlayerX;
+    double movePlayerY;
     int idTimer;
+    void SetBlockIn();
+    Map *map;
+    QList<BlockIn *> blockInList;
+
 };
 
 #endif // VIEW_H

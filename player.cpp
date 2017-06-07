@@ -13,13 +13,13 @@ Player::Player()
 
 QRectF Player::boundingRect() const
 {   //sirka obrazka 57*80
-    return QRectF(0,0,57,80);
+    return QRectF(0,18,32,32);
 }
 
 QPainterPath Player::shape() const
 {
     QPainterPath path;
-    path.addRect(boundingRect());
+    path.addRect(QRectF(0,0,32,50));
     return path;
 }
 
@@ -31,7 +31,7 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     QRect rect(45*currentIndex, 0, 45, 57);
     QImage original("../BomberMan-master/img/BomberManCyan.png");
     QImage cropped = original.copy(rect);
-    painter->drawImage(QPoint(0,0),cropped/*.scaled(80,80)*/);
+    painter->drawImage(QPoint(0,0),cropped.scaled(32,50));
 
 
 }

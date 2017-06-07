@@ -18,6 +18,8 @@ SOURCES += main.cpp\
     map.cpp \
     player.cpp \
     enemy.cpp \
+    blockde.cpp \
+    blockin.cpp \
     bomb.cpp
 
 HEADERS  += mainwindow.h \
@@ -25,6 +27,9 @@ HEADERS  += mainwindow.h \
     map.h \
     player.h \
     enemy.h \
-    bomb.h
+    bomb.h \
+    blockde.h \
+    blockin.h
+
 
 FORMS    += mainwindow.ui
