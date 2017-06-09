@@ -5,6 +5,7 @@
 #include <QKeyEvent>
 #include "map.h"
 #include "blockin.h"
+#include "blockde.h"
 #include "player.h"
 
 class View : public QGraphicsView
@@ -24,8 +25,9 @@ private:
     double movePlayerY;
     int idTimer;
     void SetBlockIn();
+    void SetBlockDe();
     Map *map;
-    QList<BlockIn *> blockInList;
+    QList<QList<int> > blockList;
     int time;
 
 };

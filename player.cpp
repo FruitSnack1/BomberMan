@@ -13,13 +13,13 @@ Player::Player()
 
 QRectF Player::boundingRect() const
 {   //sirka obrazka 57*80
-    return QRectF(0,18,32,32);
+    return QRectF(0,0,32,50);
 }
 
 QPainterPath Player::shape() const
 {
     QPainterPath path;
-    path.addRect(QRectF(0,0,32,50));
+    path.addRect(QRectF(0,18,32,32));
     return path;
 }
 
