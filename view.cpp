@@ -14,9 +14,9 @@ View::View(QGraphicsScene *scene){
     this->scene()->addItem(map);
 
     for (int i = 0; i <= 20; ++i) {
-        QList<int> a;
+        QList<QGraphicsItem *> a;
         for (int j = 0; j <= 20; ++j) {
-            int b = 0;
+            QGraphicsItem *b = NULL;
             a.append(b);
         }
         blockList.append(a);
@@ -28,7 +28,6 @@ View::View(QGraphicsScene *scene){
     CreatePlayer();
     idTimer=startTimer(17);
 
-    qDebug() << blockList;
 }
 
 void View::CreatePlayer()
@@ -51,6 +50,7 @@ void View::keyPressEvent(QKeyEvent *event)
     switch (event->key()) {
     case Qt::Key_Left:
         //qDebug() << "left";
+
         movePlayerX = -5;
         if ((time/5)%2==0) {
             player->setCurrentIndex(11);
@@ -144,12 +144,12 @@ void View::SetBlockIn(){
         for (int j = 0; j <= 20; ++j) {
             if((i == 0 || j == 0) || (i == 20 || j == 20)){
                 BlockIn *blockIn = new BlockIn();
-                blockList[i][j] = 2;
+                blockList[i][j] = blockIn;
                 blockIn->setPos(i*36,j*36);
                 this->scene()->addItem(blockIn);
             }else if(i%2 ==0 && j%2 == 0){
                 BlockIn *blockIn = new BlockIn();
-                blockList[i][j] = 2;
+                blockList[i][j] = blockIn;
                 blockIn->setPos(i*36,j*36);
                 this->scene()->addItem(blockIn);
             }
@@ -166,7 +166,7 @@ void View::SetBlockDe()
                 int r = rand() % 10;
                 if(r > 1){
                     BlockDe *blockDe = new BlockDe();
-                    blockList[i][j] = 1;
+                    blockList[i][j] = blockDe;
                     blockDe->setPos(i*36,j*36);
                     this->scene()->addItem(blockDe);
                 }

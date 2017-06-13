@@ -28,7 +28,7 @@ private:
     void SetBlockIn();
     void SetBlockDe();
     Map *map;
-    QList<QList<int> > blockList;
+    QList<QList<QGraphicsItem *> > blockList;
     int time;
 
 };
