@@ -7,6 +7,7 @@
 #include "blockin.h"
 #include "blockde.h"
 #include "player.h"
+#include "bomb.h"
 
 class View : public QGraphicsView
 {

@@ -120,7 +120,13 @@ void View::keyReleaseEvent(QKeyEvent *event)
         movePlayerX = 0;
         player->setCurrentIndex(6);
         break;
-
+    case Qt::Key_Space:
+    {
+        Bomb *bomb = new Bomb();
+        bomb->setPos(player->pos().x(), player->pos().y());
+        this->scene()->addItem(bomb);
+        break;
+    }
     default:
         break;
     } ;
