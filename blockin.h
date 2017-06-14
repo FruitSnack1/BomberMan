@@ -6,6 +6,12 @@
 class BlockIn : public QGraphicsItem
 {
 public:
+    enum { Type = UserType + 2 };
+    int type() const
+    {
+       // Enable the use of qgraphicsitem_cast with this item.
+       return Type;
+    }
     BlockIn();
     QRectF boundingRect() const;
     QPainterPath shape() const;

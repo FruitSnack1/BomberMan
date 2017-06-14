@@ -10,8 +10,8 @@ View::View()
 
 View::View(QGraphicsScene *scene){
     setScene(scene);//musi byt pred pouzitim this->scene()
-    map = new Map();
-    this->scene()->addItem(map);
+    //map = new Map();
+    //this->scene()->addItem(map);
 
     for (int i = 0; i <= 20; ++i) {
         QList<QGraphicsItem *> a;
@@ -34,14 +34,49 @@ void View::CreatePlayer()
 {
     player = new Player();
     this->scene()->addItem(player);
-    player->setPos(32,32);
+    player->setPos(38,38);
+
+}
+
+void View::CreateBomb()
+{
+    bomb = new Bomb();
+    QPointF bombPos;
+    bombPos.setX(((int)(player->pos().x()+player->boundingRect().width()/2)/36)*36);
+    bombPos.setY(((int)((player->pos().y()+player->boundingRect().height()+50)/2)/36)*36);
+    qDebug()<<bombPos;
+    bomb->setPos(bombPos);
+    this->scene()->addItem(bomb);
+
+
+}
+
+void View::UpdateBomb()
+{
+    if (bomb) {
+        bomb->update();
+        bomb->timeBomb++;
+        if (bomb->timeBomb>40&&bomb->timeBomb<80) {
+            bomb->SetCurrentIndex(1);
+        }
+        if (bomb->timeBomb>80&&bomb->timeBomb<120) {
+            bomb->SetCurrentIndex(2);
+        }
+        if (bomb->timeBomb>120) {
+            bomb->SetCurrentIndex(0);
+        this->scene()->removeItem(bomb);
+        }
+
+    }
 
 }
 void View::timerEvent(QTimerEvent *event)
 {
     MovePlayer();
+    UpdateBomb();
     //viewport()->update();
     time++;
+
     player->update();
 }
 
@@ -51,46 +86,54 @@ void View::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Left:
         //qDebug() << "left";
 
-        movePlayerX = -5;
+        movePlayerX = -2;
         if ((time/5)%2==0) {
             player->setCurrentIndex(11);
 
         }else{
-        player->setCurrentIndex(10);
+            player->setCurrentIndex(10);
         }
         break;
     case Qt::Key_Down:
         //() << "left";
-        movePlayerY = 5;
+        movePlayerY = 2;
         if ((time/5)%2==0) {
             player->setCurrentIndex(2);
 
 
         }else{
-        player->setCurrentIndex(1);
+            player->setCurrentIndex(1);
         }
         break;
     case Qt::Key_Up:
         //qDebug() << "left";
-        movePlayerY = -5;
+        movePlayerY = -2;
         if ((time/5)%2==0) {
             player->setCurrentIndex(4);
 
         }else{
-        player->setCurrentIndex(5);
+            player->setCurrentIndex(5);
         }
         break;
     case Qt::Key_Right:
         //qDebug() << "right";
-        movePlayerX = 5;
+        movePlayerX = 2;
         if ((time/5)%2==0) {
             player->setCurrentIndex(7);
 
         }else{
-        player->setCurrentIndex(8);
+            player->setCurrentIndex(8);
         }
         //player->setCurrentIndex(2);
         //pohyb pomoci currentTime
+        break;
+    case Qt::Key_Space:
+    {
+        CreateBomb();
+
+        break;
+
+    }
         break;
 
     default:
@@ -120,13 +163,7 @@ void View::keyReleaseEvent(QKeyEvent *event)
         movePlayerX = 0;
         player->setCurrentIndex(6);
         break;
-    case Qt::Key_Space:
-    {
-        Bomb *bomb = new Bomb();
-        bomb->setPos(player->pos().x(), player->pos().y());
-        this->scene()->addItem(bomb);
-        break;
-    }
+
     default:
         break;
     } ;
@@ -136,7 +173,41 @@ void View::MovePlayer()
 {
     //movePlayerX
     QPointF smer(movePlayerX,movePlayerY);
+    QPointF smer1(2,0);
+    QPointF smer2(-2,0);
+    QPointF smer3(0,-2);
+    QPointF smer4(0,2);
+    //    player->setPos(player->pos() + smer1);
+    //    if (player->Kolize()) {
+    //        player->setPos(player->pos() - smer1);
+    //        player->setPos(player->pos() - smer1);
+
+    //    }
+    //    player->setPos(player->pos() + smer2);
+    //    if (player->Kolize()) {
+    //        player->setPos(player->pos() - smer2);
+    //        player->setPos(player->pos() - smer2);
+
+    //    }
+    //    player->setPos(player->pos() + smer3);
+    //    if (player->Kolize()) {
+    //        player->setPos(player->pos() - smer3);
+    //        player->setPos(player->pos() - smer3);
+
+    //    }
+    //    player->setPos(player->pos() + smer4);
+    //    if (player->Kolize()) {
+    //        player->setPos(player->pos() - smer4);
+    //        player->setPos(player->pos() - smer4);
+
+    //    }
     player->setPos(player->pos() + smer);
+    if (player->Kolize()) {
+        player->setPos(player->pos() - smer);
+        //player->setPos(player->pos() - smer);
+    }
+    player->Kolize();
+    //player->setPos(player->pos() + smer);
 
 }
 void View::SetBlockIn(){
@@ -173,4 +244,14 @@ void View::SetBlockDe()
             }
         }
     }
+}
+
+QList<QList<QGraphicsItem *> > View::getBlockList() const
+{
+    return blockList;
+}
+
+void View::setBlockList(const QList<QList<QGraphicsItem *> > &value)
+{
+    blockList = value;
 }

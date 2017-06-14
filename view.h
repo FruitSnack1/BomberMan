@@ -14,12 +14,17 @@ class View : public QGraphicsView
 public:
     View();
     View(QGraphicsScene *scene);
+    QList<QList<QGraphicsItem *> > getBlockList() const;
+    void setBlockList(const QList<QList<QGraphicsItem *> > &value);
+
 protected:
     void timerEvent(QTimerEvent * event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 private:
     void CreatePlayer();
+    void CreateBomb();
+    void UpdateBomb();
     void MovePlayer();
     Player *player;
     double movePlayerX;
@@ -30,6 +35,7 @@ private:
     Map *map;
     QList<QList<QGraphicsItem *> > blockList;
     int time;
+    Bomb *bomb;
 
 };
 

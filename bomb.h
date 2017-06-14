@@ -6,8 +6,14 @@
 class Bomb : public QGraphicsItem
 {
 public:
+    enum { Type = UserType + 3 };
+    int type() const
+    {
+       // Enable the use of qgraphicsitem_cast with this item.
+       return Type;
+    }
     Bomb();
-
+    int timeBomb =0;
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -15,6 +21,7 @@ public:
     void SetCurrentIndex(int index);
 private:
     int currentIndex;
+
 };
 
 
