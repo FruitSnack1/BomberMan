@@ -19,6 +19,7 @@ public:
     void SetCurrentIndex(int index);
 private:
     int currentIndex;
+    int timer=0;
 };
 
 #endif // BLOCKDE_H

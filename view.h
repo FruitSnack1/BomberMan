@@ -8,6 +8,8 @@
 #include "blockde.h"
 #include "player.h"
 #include "bomb.h"
+#include <QPainter>
+
 
 class View : public QGraphicsView
 {
@@ -26,6 +28,7 @@ private:
     void CreateBomb();
     void UpdateBomb();
     void MovePlayer();
+    void DeleteBomb(int x, int y);
     Player *player;
     double movePlayerX;
     double movePlayerY;
@@ -33,10 +36,15 @@ private:
     void SetBlockIn();
     void SetBlockDe();
     Map *map;
-    QList<QList<QGraphicsItem *> > blockList;
+    QList<QList<BlockDe *> > blockList;
     int time;
     Bomb *bomb;
+    int timeBomb =0;
+    QPointF bombPos;
+    bool bombtrue=false;
+    int bombTimer=0;
 
 };
+
 
 #endif // VIEW_H

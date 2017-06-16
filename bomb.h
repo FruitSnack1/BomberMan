@@ -13,7 +13,7 @@ public:
        return Type;
     }
     Bomb();
-    int timeBomb =0;
+
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
