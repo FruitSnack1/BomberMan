@@ -17,9 +17,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     void SetCurrentIndex(int index);
+    int timer=0;
 private:
     int currentIndex;
-    int timer=0;
 };
 
 #endif // BLOCKDE_H

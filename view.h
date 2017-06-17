@@ -28,7 +28,10 @@ private:
     void CreateBomb();
     void UpdateBomb();
     void MovePlayer();
-    void DeleteBomb(int x, int y);
+    void DeleteBlocks(int x, int y);
+    void BlocksAnimation();
+    QList<BlockDe *> animation;
+    QList<QList<int> > anim;
     Player *player;
     double movePlayerX;
     double movePlayerY;
@@ -41,7 +44,6 @@ private:
     Bomb *bomb;
     int timeBomb =0;
     QPointF bombPos;
-    bool bombtrue=false;
     int bombTimer=0;
 
 };

@@ -1,7 +1,7 @@
 #include "view.h"
 #include <QDebug>
 #include <QTime>
-
+#include <QList>
 
 View::View()
 {
@@ -27,6 +27,16 @@ View::View(QGraphicsScene *scene){
 
     CreatePlayer();
     idTimer=startTimer(17);
+
+    for (int i = 0; i <= 20; ++i) {
+        QList<int> a;
+        for (int j = 0; j <= 20; ++j) {
+            int b = -1;
+            a.append(b);
+        }
+        anim.append(a);
+    }
+    qDebug() << anim;
 
 }
 
@@ -66,17 +76,10 @@ void View::UpdateBomb()
         }
         if (timeBomb>120) {
             bomb->SetCurrentIndex(0);
-
-            blockList[bombPos.x()/36][bombPos.y()/36]->SetCurrentIndex(2);
+            DeleteBlocks(bomb->pos().x()/36, bomb->pos().y()/36);
             timeBomb=0;
-        this->scene()->removeItem(bomb);
+            this->scene()->removeItem(bomb);
             bomb=NULL;
-
-            //this->scene()->addLine(bombPos.x()+18,bombPos.y()-18,bombPos.x()+18,bombPos.y()+18+36);
-            DeleteBomb(bombPos.x()/36,bombPos.y()/36);
-
-            bombtrue=true;
-
 
         }
 
@@ -87,11 +90,8 @@ void View::timerEvent(QTimerEvent *event)
 {
     MovePlayer();
     UpdateBomb();
-    if (bombtrue) {
+    BlocksAnimation();
 
-    }
-    //DeleteBomb(bombPos.x()/36,bombPos.y()/36);
-    //viewport()->update();
     time++;
 
     player->update();
@@ -207,21 +207,44 @@ void View::MovePlayer()
 
 }
 
-void View::DeleteBomb(int x, int y)
+void View::DeleteBlocks(int x, int y)
 {
-//    bombTimer++;
-//    if (bombTimer==20) {
-//        qDebug()<<"pes";
-//        qDebug()<<bombTimer;
-//    }
+    if (blockList[x][y+1]!=NULL){
+        anim[0][0] = x;
+        anim[0][1] = y+1;
+    };
+    if (blockList[x][y-1]!=NULL){
+        anim[1][0] = x;
+        anim[1][1] = y-1;
+    };
+    if (blockList[x+1][y]!=NULL){
+        anim[2][0] = x+1;
+        anim[2][1] = y;
+    };
+    if (blockList[x-1][y]!=NULL){
+        anim[3][0] = x-1;
+        anim[3][1] = y;
+    };
+}
 
-    if (blockList[x][y+1]!=NULL) {
-        scene()->removeItem(blockList[x][y+1]);
-
-        blockList[x][y+1]=NULL;
-        bombtrue=false;
+void View::BlocksAnimation()
+{
+    for (int i = 0; i < anim.length(); ++i) {
+        if(anim[i][0] != -1){
+            int x = anim[i][0];
+            int y = anim[i][1];
+            blockList[x][y]->timer++;
+            if(blockList[x][y]->timer > 16){
+                this->scene()->removeItem(blockList[x][y]);
+                blockList[x][y] = NULL;
+                anim[i][0] = -1;
+                anim[i][1] = -1;
+            }else if(blockList[x][y]->timer%2){
+                blockList[x][y]->SetCurrentIndex(blockList[x][y]->timer/2+1);
+                blockList[x][y]->update();
+            }
+        }
     }
-
 }
 void View::SetBlockIn(){
     for (int i = 0; i <= 20; ++i) {
