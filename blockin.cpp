@@ -14,7 +14,7 @@ QRectF BlockIn::boundingRect() const
 QPainterPath BlockIn::shape() const
 {
     QPainterPath path;
-    path.addRect(boundingRect());
+    path.addRect(QRectF(0,0,36,36));
     return path;
 }
 

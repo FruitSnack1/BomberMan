@@ -12,7 +12,6 @@ View::View(QGraphicsScene *scene){
     setScene(scene);//musi byt pred pouzitim this->scene()
     //map = new Map();
     //this->scene()->addItem(map);
-
     for (int i = 0; i <= 20; ++i) {
         QList<BlockDe *> a;
         for (int j = 0; j <= 20; ++j) {
@@ -21,13 +20,13 @@ View::View(QGraphicsScene *scene){
         }
         blockList.append(a);
     }
-
-    SetBlockIn();
+    bomb = NULL;
+    explosion = NULL;
     SetBlockDe();
 
     CreatePlayer();
     idTimer=startTimer(17);
-
+    qDebug() << 2;
     for (int i = 0; i <= 20; ++i) {
         QList<int> a;
         for (int j = 0; j <= 20; ++j) {
@@ -35,8 +34,9 @@ View::View(QGraphicsScene *scene){
             a.append(b);
         }
         anim.append(a);
+        inBlockList.append(a);
     }
-    qDebug() << anim;
+    SetBlockIn();
 
 }
 
@@ -78,9 +78,9 @@ void View::UpdateBomb()
             bomb->SetCurrentIndex(0);
             DeleteBlocks(bomb->pos().x()/36, bomb->pos().y()/36);
             timeBomb=0;
+            CreateExplosion(bomb->pos().x()/36, bomb->pos().y()/36);
             this->scene()->removeItem(bomb);
             bomb=NULL;
-
         }
 
     }
@@ -89,8 +89,11 @@ void View::UpdateBomb()
 void View::timerEvent(QTimerEvent *event)
 {
     MovePlayer();
+
     UpdateBomb();
+
     BlocksAnimation();
+    ExplosionAnimation();
 
     time++;
 
@@ -234,18 +237,40 @@ void View::BlocksAnimation()
             int x = anim[i][0];
             int y = anim[i][1];
             blockList[x][y]->timer++;
-            if(blockList[x][y]->timer > 16){
+            if(blockList[x][y]->timer > 40){
                 this->scene()->removeItem(blockList[x][y]);
                 blockList[x][y] = NULL;
                 anim[i][0] = -1;
                 anim[i][1] = -1;
-            }else if(blockList[x][y]->timer%2){
-                blockList[x][y]->SetCurrentIndex(blockList[x][y]->timer/2+1);
+            }else if(blockList[x][y]->timer%5){
+                blockList[x][y]->SetCurrentIndex(blockList[x][y]->timer/5+1);
                 blockList[x][y]->update();
             }
         }
     }
 }
+
+void View::ExplosionAnimation()
+{
+    if(explosion){
+        explosion->timer++;
+        if(explosion->timer > 40){
+            this->scene()->removeItem(explosion);
+            explosion = NULL;
+        }else if(explosion->timer%5){
+            explosion->SetCurrentIndex(explosion->timer/5+1);
+            explosion->update();
+        }
+    }
+}
+
+void View::CreateExplosion(int x, int y)
+{
+    explosion = new Explosion(inBlockList);
+    this->scene()->addItem(explosion);
+    explosion->setPos(x*36,y*36);
+}
+
 void View::SetBlockIn(){
     for (int i = 0; i <= 20; ++i) {
         for (int j = 0; j <= 20; ++j) {
@@ -254,11 +279,13 @@ void View::SetBlockIn(){
                 //blockList[i][j] = blockIn;
                 blockIn->setPos(i*36,j*36);
                 this->scene()->addItem(blockIn);
+                inBlockList[i][j] = 1;
             }else if(i%2 ==0 && j%2 == 0){
                 BlockIn *blockIn = new BlockIn();
                // blockList[i][j] = blockIn;
                 blockIn->setPos(i*36,j*36);
                 this->scene()->addItem(blockIn);
+                inBlockList[i][j] = 1;
             }
         }
     }

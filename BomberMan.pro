@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     enemy.cpp \
     blockde.cpp \
     blockin.cpp \
-    bomb.cpp
+    bomb.cpp \
+    explosion.cpp
 
 HEADERS  += mainwindow.h \
     view.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     enemy.h \
     bomb.h \
     blockde.h \
-    blockin.h
+    blockin.h \
+    explosion.h
 
 
 FORMS    += mainwindow.ui

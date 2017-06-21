@@ -8,6 +8,7 @@
 #include "blockde.h"
 #include "player.h"
 #include "bomb.h"
+#include "explosion.h"
 #include <QPainter>
 
 
@@ -30,8 +31,11 @@ private:
     void MovePlayer();
     void DeleteBlocks(int x, int y);
     void BlocksAnimation();
+    void ExplosionAnimation();
+    void CreateExplosion(int x, int y);
     QList<BlockDe *> animation;
     QList<QList<int> > anim;
+    QList<QList<int> > inBlockList;
     Player *player;
     double movePlayerX;
     double movePlayerY;
@@ -42,6 +46,7 @@ private:
     QList<QList<BlockDe *> > blockList;
     int time;
     Bomb *bomb;
+    Explosion *explosion;
     int timeBomb =0;
     QPointF bombPos;
     int bombTimer=0;
